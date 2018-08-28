@@ -25,6 +25,7 @@ module.exports = {
     'semi': ['error', 'always'],
     // allow async-await
     'generator-star-spacing': 'off',
+    "no-tabs":'off',
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'indent': 'off',
@@ -34,6 +35,6 @@ module.exports = {
       {
         'baseIndent': 1
       }
-    ]
+    ],
   }
 }
