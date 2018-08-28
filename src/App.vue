@@ -6,10 +6,10 @@
 </template>
 
 <script>
-    console.log(123, 123)
+    console.log(123, 123);
     export default {
         name: 'App'
-    }
+    };
 </script>
 
 <style>
