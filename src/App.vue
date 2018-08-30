@@ -6,7 +6,7 @@
       <div class="head-top">
         <div class="section">
           <div class="left-box">
-            <span>黑马买买买</span>
+            <span>商城</span>
             <a
               target="_blank"
               href="#"/>
