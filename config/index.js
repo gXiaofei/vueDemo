@@ -16,7 +16,7 @@ module.exports = {
         target: 'http://47.106.148.205:8899',
         changeOrigin: true,
         pathRewrite: {
-            '^/site': ''
+            '^/site': '/site'
         },
       }
     },
