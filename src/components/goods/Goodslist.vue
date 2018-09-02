@@ -87,7 +87,7 @@
                 </div>
                 <div class="txt-box">
                   <a href="/goods/show-98.html">{{ item.title }}</a>
-                  <span>{{ item.add_time | timeFilter }}</span>
+                  <span>{{ item.add_time | time }}</span>
                 </div>
               </li>
             </ul>
@@ -146,15 +146,8 @@
 </template>
 
 <script>
-    import moment from 'moment';
     export default {
         name: 'Goodslist',
-        filters: {
-            timeFilter: function (time) {
-                if (!time) return '';
-                return moment(time).format('YYYY-MM-DD');
-            }
-        },
         data () {
             return {
                 goodsData: {}, // 头部数据

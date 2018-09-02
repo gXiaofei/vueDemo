@@ -8,6 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import '../static/site/css/style.css';
 import $ from 'jquery';
 import axios from 'axios';
+import moment from 'moment';
 import VueLazyload from 'vue-lazyload';
 Vue.use(VueLazyload, {
     preLoad: 1.3,
@@ -20,6 +21,11 @@ axios.defaults.baseURL = 'http://47.106.148.205:8899';
 // 全局使用的可以挂在到原型上
 Vue.prototype.$jq = $;
 Vue.prototype.$axios = axios;
+
+Vue.filter('time', function (value, format = 'YYYY-MM-DD') {
+    if (!value) return '';
+    return moment(value).format(format);
+});
 
 Vue.config.productionTip = false;
 

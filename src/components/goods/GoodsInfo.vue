@@ -73,26 +73,34 @@
             <div
               id="goodsTabs"
               class="goods-tab bg-wrap">
+              <Affix>
+                <div
+                  id="tabHead"
+                  class="tab-head"
+                  style="position: static; top: 517px; width: 925px;">
+                  <ul>
+                    <li>
+                      <a
+                        :class="{selected: !isShowComment}"
+                        href="javascript:;"
+                        @click="isShowComment = false">商品介绍</a>
+                    </li>
+                    <li>
+                      <a
+                        :class="{selected: isShowComment}"
+                        href="javascript:;"
+                        @click="isShowComment = true">商品评论</a>
+                    </li>
+                  </ul>
+                </div>
+              </Affix>
               <div
-                id="tabHead"
-                class="tab-head"
-                style="position: static; top: 517px; width: 925px;">
-                <ul>
-                  <li>
-                    <a
-                      href="javascript:;"
-                      class="selected">商品介绍</a>
-                  </li>
-                  <li>
-                    <a href="javascript:;">商品评论</a>
-                  </li>
-                </ul>
-              </div>
-              <div
+                v-show="!isShowComment"
                 class="tab-content entry"
                 style="display: block;"
                 v-html="goods.goodsinfo.content"/>
               <div
+                v-show="isShowComment"
                 class="tab-content"
                 style="display: block;">
                 <div class="comment-box">
@@ -107,6 +115,7 @@
                       <div class="editor">
                         <textarea
                           id="txtContent"
+                          ref="commenttxt"
                           name="txtContent"
                           sucmsg=" "
                           datatype="*10-1000"
@@ -119,7 +128,8 @@
                           name="submit"
                           type="submit"
                           value="提交评论"
-                          class="submit">
+                          class="submit"
+                          @click="submitComment">
                         <span class="Validform_checktip"/>
                       </div>
                     </div>
@@ -127,31 +137,24 @@
                   <ul
                     id="commentList"
                     class="list-box">
-                    <p style="margin: 5px 0px 15px 69px; line-height: 42px; text-align: center; border: 1px solid rgb(247, 247, 247);">暂无评论，快来抢沙发吧！</p>
-                    <li>
+                    <p
+                      v-if="commentsList.totalcount === 0"
+                      style="margin: 5px 0px 15px 69px; line-height: 42px; text-align: center; border: 1px solid rgb(247, 247, 247);">暂无评论，快来抢沙发吧！</p>
+                    <li
+                      v-for="item in commentsList.message"
+                      :key="item.id">
                       <div class="avatar-box">
                         <i class="iconfont icon-user-full"/>
                       </div>
                       <div class="inner-box">
                         <div class="info">
                           <span>匿名用户</span>
-                          <span>2017/10/23 14:58:59</span>
+                          <span>{{ item.add_time | time('YYYY-MM-DD HH-mm-ss') }}</span>
                         </div>
-                        <p>testtesttest</p>
+                        <p>{{ item.content }}</p>
                       </div>
                     </li>
-                    <li>
-                      <div class="avatar-box">
-                        <i class="iconfont icon-user-full"/>
-                      </div>
-                      <div class="inner-box">
-                        <div class="info">
-                          <span>匿名用户</span>
-                          <span>2017/10/23 14:59:36</span>
-                        </div>
-                        <p>很清晰调动单很清晰调动单</p>
-                      </div>
-                    </li>
+
                   </ul>
                   <div
                     class="page-box"
@@ -159,9 +162,14 @@
                     <div
                       id="pagination"
                       class="digg">
-                      <span class="disabled">« 上一页</span>
-                      <span class="current">1</span>
-                      <span class="disabled">下一页 »</span>
+                      <el-pagination
+                        :current-page="pageIndex"
+                        :page-sizes="[2, 5, 10, 20]"
+                        :page-size="pageSize"
+                        :total="commentsList.totalcount"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"/>
                     </div>
                   </div>
                 </div>
@@ -173,124 +181,21 @@
               <div class="sidebar-box">
                 <h4>推荐商品</h4>
                 <ul class="side-img-list">
-                  <li>
+                  <li
+                    v-for="item in goods.hotgoodslist"
+                    :key="item.id">
                     <div class="img-box">
-                      <a
-                        href="#/site/goodsinfo/90"
+                      <router-link
+                        :to="'/goodsinfo/'+item.id"
                         class="">
-                        <img src="http://39.108.135.214:8899/upload/201504/20/thumb_201504200154277661.jpg">
-                      </a>
+                        <img :src="item.img_url">
+                      </router-link>
                     </div>
                     <div class="txt-box">
-                      <a
-                        href="#/site/goodsinfo/90"
-                        class="">佳能（Canon） EOS 700D 单反套机</a>
-                      <span>2015-04-20</span>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="img-box">
-                      <a
-                        href="#/site/goodsinfo/91"
-                        class="">
-                        <img src="http://39.108.135.214:8899/upload/201504/20/thumb_201504200214471783.jpg">
-                      </a>
-                    </div>
-                    <div class="txt-box">
-                      <a
-                        href="#/site/goodsinfo/91"
-                        class="">尼康(Nikon)D3300套机（18-55mm f/3.5-5.6G VRII）（黑色）</a>
-                      <span>2015-04-20</span>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="img-box">
-                      <a
-                        href="#/site/goodsinfo/92"
-                        class="">
-                        <img src="http://39.108.135.214:8899/upload/201504/20/thumb_201504200225107390.jpg">
-                      </a>
-                    </div>
-                    <div class="txt-box">
-                      <a
-                        href="#/site/goodsinfo/92"
-                        class="">联想（Lenovo） G510AM 15.6英寸笔记本电脑</a>
-                      <span>2015-04-20</span>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="img-box">
-                      <a
-                        href="#/site/goodsinfo/93"
-                        class="">
-                        <img src="http://39.108.135.214:8899/upload/201504/20/201504200341260763.jpg">
-                      </a>
-                    </div>
-                    <div class="txt-box">
-                      <a
-                        href="#/site/goodsinfo/93"
-                        class="">Apple iMac MF883CH/A 21.5英寸一体机电脑</a>
-                      <span>2015-04-20</span>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="img-box">
-                      <a
-                        href="#/site/goodsinfo/94"
-                        class="">
-                        <img src="http://39.108.135.214:8899/upload/201504/20/thumb_201504200239192345.jpg">
-                      </a>
-                    </div>
-                    <div class="txt-box">
-                      <a
-                        href="#/site/goodsinfo/94"
-                        class="">金士顿（Kingston） DataTraveler SE9 32GB 金属U盘</a>
-                      <span>2015-04-20</span>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="img-box">
-                      <a
-                        href="#/site/goodsinfo/97"
-                        class="">
-                        <img src="http://39.108.135.214:8899/upload/201504/20/thumb_201504200258403759.jpg">
-                      </a>
-                    </div>
-                    <div class="txt-box">
-                      <a
-                        href="#/site/goodsinfo/97"
-                        class="">三星（SAMSUNG）UA40HU5920JXXZ 40英寸4K超高清</a>
-                      <span>2015-04-20</span>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="img-box">
-                      <a
-                        href="#/site/goodsinfo/102"
-                        class="">
-                        <img src="http://39.108.135.214:8899/imgs/wTgAWDLpQReTQ-ZOMdlAk4vF.jpg">
-                      </a>
-                    </div>
-                    <div class="txt-box">
-                      <a
-                        href="#/site/goodsinfo/102"
-                        class="">Hazzys哈吉斯2017新款男士长袖衬衫纯棉修身英伦衬衫显瘦商务衬衣</a>
-                      <span>2017-09-13</span>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="img-box">
-                      <a
-                        href="#/site/goodsinfo/103"
-                        class="">
-                        <img src="http://39.108.135.214:8899/imgs/SJ4EgwosX0wTqvyAvhtFGT1w.jpg">
-                      </a>
-                    </div>
-                    <div class="txt-box">
-                      <a
-                        href="#/site/goodsinfo/103"
-                        class="">骆驼男装2017秋季新款运动休闲纯色夹克青年宽松长袖针织开衫卫衣</a>
-                      <span>2017-09-26</span>
+                      <router-link
+                        :to="'/goodsinfo/'+item.id"
+                        class="">{{ item.title }}</router-link>
+                      <span>{{ item.add_time | time }}</span>
                     </div>
                   </li>
                 </ul>
@@ -300,24 +205,95 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
+    import { Affix } from 'iview';
     export default {
+        components: {
+            Affix
+        },
         data () {
             return {
                 goods: {},
-                buyCount: 1
+                buyCount: 1,
+                isShowComment: false,
+                pageIndex: 1,
+                pageSize: 2,
+                commentsList: {}
             };
         },
+        watch: {
+            //  利用watch监控路径的变化
+            $route: function (newValue) {
+                // 路由变化获取对应的商品详情
+                this.getGoodsData();
+                // 路由变化重新获取对应的评论信息
+                this.pageIndex = 1;
+                this.pageSize = 2;
+                this.getCommentsData();
+            }
+        },
         created () {
-            this.$axios.get('site/goods/getgoodsinfo/' + this.$route.params.id).then(res => {
-                this.goods = res.data.message;
-            }, err => {
-                console.log(err);
-            });
+            // 获取推荐商品
+            this.getGoodsData();
+            // 获取评论
+            this.getCommentsData();
+        },
+        methods: {
+            // 获取商品详情
+            getGoodsData () {
+                this.$axios.get('site/goods/getgoodsinfo/' + this.$route.params.id).then(res => {
+                    this.goods = res.data.message;
+                }, err => {
+                    console.log(err);
+                });
+            },
+            // 获取评论数据
+            getCommentsData () {
+                var url = `site/comment/getbypage/goods/${this.$route.params.id}?pageIndex=${this.pageIndex}&pageSize=${this.pageSize}`;
+
+                this.$axios.get(url).then(res => {
+                    this.commentsList = res.data;
+                }, err => {
+                    console.log(err);
+                });
+            },
+            handleSizeChange (pageSize) {
+                this.pageSize = pageSize;
+                this.pageIndex = 1;
+                this.getCommentsData();
+            },
+            handleCurrentChange (pageIndex) {
+                this.pageIndex = pageIndex;
+                this.getCommentsData();
+            },
+            // 提交评论
+            submitComment () {
+                var url = `site/validate/comment/post/goods/${this.$route.params.id}`;
+                if (this.$refs.commenttxt.value.trim() === '') {
+                    this.$message({
+                        message: '请填写内容',
+                        type: 'warning'
+                    });
+                    return;
+                }
+                this.$axios.post(url, {
+                    commenttxt: this.$refs.commenttxt.value
+                }).then(res => {
+                    this.$message({
+                        message: '评论成功',
+                        type: 'success'
+                    });
+                    this.$refs.commenttxt.value = '';
+                    this.pageIndex = 1;
+                    this.getCommentsData();
+                }, err => {
+                    console.log(err);
+                });
+            }
+
         }
     };
 </script>
