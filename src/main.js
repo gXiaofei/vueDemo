@@ -10,6 +10,8 @@ import $ from 'jquery';
 import axios from 'axios';
 import moment from 'moment';
 import VueLazyload from 'vue-lazyload';
+import Vuex from 'vuex';
+
 Vue.use(VueLazyload, {
     preLoad: 1.3,
     // error: 'dist/error.png',
@@ -28,12 +30,34 @@ Vue.filter('time', function (value, format = 'YYYY-MM-DD') {
 });
 
 Vue.config.productionTip = false;
-
+Vue.use(Vuex); // vue.prototyoe.$store
 Vue.use(ElementUI); // 基于vue用use引入
+
+const store = new Vuex.Store({
+    state: {},
+    mutations: {
+        /**
+         *
+         * @param {*} state 第一个参数必须是state
+         * @param {*} goods 第二个是载荷, 也就是参数
+         */
+        addGoods (state, goods) {
+            console.log(goods);
+        }
+    },
+    actions: {
+
+    },
+    getters: {
+
+    }
+});
+
 /* eslint-disable no-new */
 new Vue({
     el: '#app',
     router,
     components: { App },
-    template: '<App/>'
+    template: '<App/>',
+    store // 注入到跟实例
 });

@@ -62,8 +62,8 @@
                           onclick="cartAdd(this,'/',1,'/shopping.html');"
                           class="buy">立即购买</button>
                         <button
-                          onclick="cartAdd(this,'/',0,'/cart.html');"
-                          class="add">加入购物车</button>
+                          class="add"
+                          @click="addToShopCart">加入购物车</button>
                       </div>
                     </dd>
                   </dl>
@@ -292,6 +292,15 @@
                 }, err => {
                     console.log(err);
                 });
+            },
+            // 加入购物车
+            addToShopCart () {
+                const data = {
+                    goodsId: this.$route.params.id,
+                    count: this.buyCount
+                };
+                // 利用this.$store.commit来触发
+                this.$store.commit('addGoods', data);
             }
 
         }
