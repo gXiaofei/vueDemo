@@ -11,6 +11,7 @@ import axios from 'axios';
 import moment from 'moment';
 import VueLazyload from 'vue-lazyload';
 import Vuex from 'vuex';
+import {addLocalGoods, getTotalCount, getLocalGoods} from './common/localStorageHelper';
 
 Vue.use(VueLazyload, {
     preLoad: 1.3,
@@ -34,7 +35,11 @@ Vue.use(Vuex); // vue.prototyoe.$store
 Vue.use(ElementUI); // 基于vue用use引入
 
 const store = new Vuex.Store({
-    state: {},
+    state: {
+        // 初始值设置为本地所存的商品数量
+        buyCount: getTotalCount()
+
+    },
     mutations: {
         /**
          *
@@ -42,14 +47,20 @@ const store = new Vuex.Store({
          * @param {*} goods 第二个是载荷, 也就是参数
          */
         addGoods (state, goods) {
-            console.log(goods);
+            state.buyCount = addLocalGoods(goods);
         }
     },
     actions: {
 
     },
     getters: {
-
+        // 获取商品总数
+        getBuyCount (state) {
+            return state.buyCount;
+        },
+        getLocalGoods () {
+            return getLocalGoods();
+        }
     }
 });
 

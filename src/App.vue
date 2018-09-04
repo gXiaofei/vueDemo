@@ -40,7 +40,7 @@
               class="">
               <i class="iconfont icon-cart"/>购物车(
               <span id="shoppingCartCount">
-                <span>4</span>
+                <span>{{ $store.getters.getBuyCount }}</span>
             </span>)</router-link>
           </div>
         </div>
