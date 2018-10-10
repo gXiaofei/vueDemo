@@ -17,22 +17,22 @@
           <div
             id="menu"
             class="right-box">
-            <span style="display: none;">
-              <a
-                href=""
-                class="">登录</a>
+            <span v-show="!isLogin">
+              <router-link
+                to="/login"
+                class="">登录</router-link>
               <strong>|</strong>
               <a
                 href=""
                 class="">注册</a>
               <strong>|</strong>
             </span>
-            <span>
+            <span v-show="isLogin">
               <a
                 href=""
                 class="">会员中心</a>
               <strong>|</strong>
-              <a>退出</a>
+              <a @click="logout">退出</a>
               <strong>|</strong>
             </span>
             <router-link
@@ -167,13 +167,19 @@
 </template>
 
 <script>
-
+    import {bus} from './common/bus.js';
     export default {
         name: 'App',
         data () {
             return {
-
+                isLogin: false
             };
+        },
+        created () {
+            bus.$on('logined', isLogin => {
+                this.isLogin = isLogin;
+            });
+            this.checkLogin();
         },
         mounted () {
             const _this = this;
@@ -192,6 +198,33 @@
                     _this.$jq('.over', this).stop().animate({'top': '-48px'}, 300); // move up - hide
                 });
             });
+        },
+        methods: {
+            // 进来判断是否登陆
+            checkLogin () {
+                this.$axios.get(`site/account/islogin`).then(res => {
+                    if (res.data.code === 'nologin') {
+                        // 未登录
+                        this.isLogin = false;
+                    } else {
+                        // 已登录
+                        this.isLogin = true;
+                    }
+                }, err => {
+                    console.log(err);
+                });
+            },
+            // 退出
+            logout () {
+                this.$axios.get(`site/account/logout`).then(res => {
+                    if (res.data.status === 0) {
+                        this.isLogin = false;
+                        this.$router.push('login');
+                    }
+                }, err => {
+                    console.log(err);
+                });
+            }
         }
     };
 </script>

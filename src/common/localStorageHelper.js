@@ -25,3 +25,23 @@ export const addLocalGoods = goods => {
     // 返回商品总数
     return getTotalCount();
 };
+
+export const updateGoods = goods => {
+    const localGoods = getLocalGoods();
+    localGoods[goods.goodsId] = goods.count;
+    // 保存在本地
+    localStorage.setItem(KEY, JSON.stringify(localGoods));
+    // 返回商品总数
+    return getTotalCount();
+};
+
+export const deleteLocalGoodsById = goodsId => {
+    const localGoods = getLocalGoods();
+
+    delete localGoods[goodsId];
+
+    // 保存在本地
+    localStorage.setItem(KEY, JSON.stringify(localGoods));
+    // 返回商品总数
+    return getTotalCount();
+};
