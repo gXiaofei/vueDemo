@@ -28,7 +28,6 @@
         },
         created () {
             this.count = this.initCount;
-            console.log(this.initCount);
         },
         methods: {
 
