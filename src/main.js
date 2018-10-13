@@ -66,6 +66,7 @@ const store = new Vuex.Store({
         buyCount: getTotalCount()
 
     },
+    // 同步设置state值
     mutations: {
         /**
          * 增加商品
@@ -93,6 +94,7 @@ const store = new Vuex.Store({
         }
 
     },
+    // 异步设置state值
     actions: {
 
     },
