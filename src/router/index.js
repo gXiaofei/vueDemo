@@ -6,7 +6,7 @@ import Shopcart from '../components/shopcart/Shopcart.vue';
 import Goodsinfo from '../components/goods/Goodsinfo.vue';
 import Order from '../components/order/Order.vue';
 import Login from '../components/account/Login.vue';
-
+import PayOrder from '../components/pay/PayOrder.vue';
 Vue.use(Router); // 集成中间件  在Vue.prototype.$route 原型上添加了$route   Vue.protoype.$router
 
 export default new Router({
@@ -43,6 +43,14 @@ export default new Router({
             path: '/login',
             name: 'Login',
             component: Login
+        },
+        {
+            path: '/pay/:orderId',
+            name: 'PayOrder',
+            component: PayOrder,
+            meta: {
+                needLogin: true
+            }
         }
     ]
 });
