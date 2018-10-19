@@ -210,6 +210,7 @@
 
 <script>
     import { Affix } from 'iview';
+    import {ADD_GOODS} from '../../store/mutations-types.js';
     export default {
         components: {
             Affix
@@ -299,8 +300,11 @@
                     goodsId: this.$route.params.id,
                     count: this.buyCount
                 };
+
+                this.$store.dispatch('addGoodsAsync', data);
+
                 // 利用this.$store.commit来触发
-                this.$store.commit('addGoods', data);
+                // this.$store.commit(ADD_GOODS, data);
             }
 
         }

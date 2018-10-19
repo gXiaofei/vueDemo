@@ -40,7 +40,8 @@
               class="">
               <i class="iconfont icon-cart"/>购物车(
               <span id="shoppingCartCount">
-                <span>{{ $store.getters.getBuyCount }}</span>
+                <!-- <span>{{ $store.getters.getBuyCount }}</span> -->
+                <span>{{ getBuyCount }}</span>
             </span>)</router-link>
           </div>
         </div>
@@ -168,12 +169,21 @@
 
 <script>
     import {bus} from './common/bus.js';
+    // 辅助函数
+    import { mapGetters } from 'vuex';
+
     export default {
         name: 'App',
         data () {
             return {
                 isLogin: false
             };
+        },
+        computed: {
+            // 使用对象展开运算符将 getter 混入 computed 对象中
+            ...mapGetters([
+                'getBuyCount'
+            ])
         },
         created () {
             bus.$on('logined', isLogin => {

@@ -234,6 +234,8 @@
 <script>
     // import VDistpicker from 'v-distpicker';
     import {getLocalGoods} from '../../common/localStorageHelper.js';
+    import {DELETE_GOODS} from '../../store/mutations-types.js';
+
     export default {
         data () {
             var checkMobile = (rule, value, callback) => {
@@ -349,7 +351,7 @@
                                 this.$router.push(`/pay/${res.data.message.orderid}`);
                                 const idsArr = this.$route.query.ids.split(',');
                                 idsArr.forEach(id => {
-                                    this.$store.commit('deleteGoods', id);
+                                    this.$store.commit(DELETE_GOODS, id);
                                 });
                             }
                         });

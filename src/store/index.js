@@ -4,6 +4,7 @@ import Vue from 'vue';
 import state from './state';
 import getters from './getters';
 import mutations from './mutations';
+import actions from './actions';
 
 Vue.use(Vuex); // vue.prototyoe.$store
 
@@ -12,9 +13,7 @@ const store = new Vuex.Store({
     // 同步设置state值
     mutations,
     // 异步设置state值
-    actions: {
-
-    },
+    actions,
     getters
 });
 

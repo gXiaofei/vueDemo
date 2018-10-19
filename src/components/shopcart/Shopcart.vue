@@ -169,8 +169,9 @@
 <script>
 
     import InputNumber from './InputNumber.vue';
-
     import {getLocalGoods} from '../../common/localStorageHelper.js';
+    import {DELETE_GOODS} from '../../store/mutations-types.js';
+
     export default {
         components: {
             InputNumber
@@ -227,7 +228,7 @@
                 this.goodsList.forEach(item => {
                     if (item.id === changeGoods.goodsId) item.buycount = changeGoods.count;
                 });
-                this.$store.commit('updateGoods', changeGoods);
+                this.$store.commit(DELETE_GOODS, changeGoods);
             },
 
             // 删除商品
@@ -238,7 +239,7 @@
                     type: 'warning'
                 }).then(() => {
                     this.goodsList.splice(index, 1);
-                    this.$store.commit('deleteGoods', goodsId);
+                    this.$store.commit(DELETE_GOODS, goodsId);
                     this.$message({
                         type: 'success',
                         message: '删除成功!'

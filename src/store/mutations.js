@@ -1,4 +1,5 @@
 import {addLocalGoods, updateGoods, deleteLocalGoodsById} from '../common/localStorageHelper';
+import * as types from './mutations-types';
 
 export default {
     /**
@@ -6,7 +7,7 @@ export default {
      * @param {*} state 第一个参数必须是state
      * @param {*} goods 第二个是载荷, 也就是参数
      */
-    addGoods (state, goods) {
+    [types.ADD_GOODS] (state, goods) {
         state.buyCount = addLocalGoods(goods);
     },
     /**
@@ -14,7 +15,7 @@ export default {
      * @param {*} state 第一个参数必须是state
      * @param {*} goods 第二个是载荷, 也就是参数
      */
-    updateGoods (state, goods) {
+    [types.UPDATE_GOODS] (state, goods) {
         state.buyCount = updateGoods(goods);
     },
     /**
@@ -22,7 +23,7 @@ export default {
      * @param {*} state 第一个参数必须是state
      * @param {*} goodsId 第二个是载荷, 也就是参数
      */
-    deleteGoods (state, goodsId) {
+    [types.DELETE_GOODS] (state, goodsId) {
         state.buyCount = deleteLocalGoodsById(goodsId);
     }
 };
